@@ -1,0 +1,88 @@
+import java.util.ArrayList;
+import EDL.*;
+public class Tree<T> {
+    private ArrayList<Tree<T>> childs;
+    private T dato;
+
+    public Tree() {
+        dato = null;
+        childs = new ArrayList<>();
+    }
+
+    public Tree(T dato) {
+        this.dato = dato;
+        childs = new ArrayList<>();
+    }
+
+    public ArrayList<Tree<T>> getChilds() {
+        return childs;
+    }
+
+    public T getDato() {
+        return dato;
+    }
+
+    public void setDato(T dato) {
+        this.dato = dato;
+    }
+
+    public void setIzq(T dat) {
+        Tree<T> arbol = new Tree<>(dat);
+        if (childs.size() > 0) {
+            childs.set(0, arbol);
+        } else {
+            childs.add(arbol);
+        }
+    }
+
+    public void setMed(T dat) {
+        Tree<T> arbol = new Tree<>(dat);
+        if (childs.size() > 1) {
+            childs.set(1, arbol);
+        } else {
+            childs.add(arbol);
+        }
+    }
+
+    public void setDer(T dat) {
+        Tree<T> arbol = new Tree<>(dat);
+        if (childs.size() > 2) {
+            childs.set(2, arbol);
+        } else {
+            childs.add(arbol);
+        }
+    }
+
+    public boolean esHoja(){
+        return childs == null;
+    }
+
+    public boolean isEmpty() {
+        return dato == null;
+    }
+    
+    public void printHijos(){
+        for(int i = 0; i<childs.size(); i++){
+            System.out.print(childs.get(i).getDato().toString());
+        }
+    }
+
+    public void bfs() {
+        if (!isEmpty()) {
+            Cola<Tree<T>> cola = new Cola<>();
+            cola.offer(this);
+            while (!cola.isEmpty()) {
+                Tree<T> actual = cola.poll();
+                if (!actual.isEmpty()) {
+                    System.out.print(actual.getDato().toString() + " ");
+                    if(actual.getChilds().size()!=0){
+                        System.out.println("");
+                        for(int i = 0; i < actual.getChilds().size(); i++){
+                            cola.offer(actual.getChilds().get(i));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
